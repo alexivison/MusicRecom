@@ -23,6 +23,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    // https://typed-vuex.roe.dev/
+    'nuxt-typed-vuex',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -41,4 +43,15 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+
+  // Public runtime config
+  publicRuntimeConfig: {
+    lastFmBaseUrl: process.env.LAST_FM_API_URL,
+  },
+
+  // Private runtime config
+  privateRuntimeConfig: {
+    lastFmApiKey: process.env.LAST_FM_API_KEY,
+    lastFmApiSecret: process.env.LAST_FM_API_SECRET,
+  },
 }
