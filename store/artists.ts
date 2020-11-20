@@ -1,4 +1,5 @@
 import { getterTree, mutationTree, actionTree } from 'nuxt-typed-vuex'
+
 import { Artist } from '~/types'
 
 export type ArtistsState = {
@@ -19,24 +20,30 @@ export const getters = getterTree(state, {})
 
 // Mutations
 export const mutations = mutationTree(state, {
-  fetchArtistsSuccess(state, artists: Artist[]) {
-    state.loading = false
+  setData(state, artists: Artist[]) {
     state.data = artists
   },
-  fetchArtistsFailure(state, error: Error) {
-    state.loading = false
+  setLoading(state, loading: boolean) {
+    state.loading = loading
+  },
+  setError(state, error: Error) {
     state.error = error
-  }
+  },
 })
 
 // Actions
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    async fetchArtists({ commit }) {
-      const artists = await this.$axios.$get('/')
-      console.log({ artists })
-      commit('fetchArtistsSuccess', artists)
+    async fetchArtists({ commit }, query: string) {
+      commit('setLoading', true)
+
+      const endpoint = this.$endpoint.artists.getSimilar(query)
+      const result = await this.$api.call(endpoint)
+      const data = result.data.similarartists.artist
+
+      commit('setData', data)
+      commit('setLoading', false)
     },
   }
 )
