@@ -14,7 +14,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: ['~/plugins/api', '~/plugins/endpoint'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -23,6 +23,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    // https://typed-vuex.roe.dev/
+    'nuxt-typed-vuex',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -41,4 +43,15 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+
+  // Public runtime config
+  publicRuntimeConfig: {
+    lastFmBaseUrl: process.env.LAST_FM_API_URL,
+    lastFmApiKey: process.env.LAST_FM_API_KEY,
+  },
+
+  // Private runtime config
+  privateRuntimeConfig: {
+    lastFmApiSecret: process.env.LAST_FM_API_SECRET,
+  },
 }
